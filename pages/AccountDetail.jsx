@@ -38,7 +38,10 @@ export async function loader({ params }) {
         });
       })
       .catch((err) => console.log(err));
-
+    if (userId == details.id) {
+      console.log("test");
+      redirect("/quotee/profile");
+    }
     const quotesData = [];
     const qq = query(
       collection(db, "quotes"),

@@ -71,7 +71,7 @@ export async function action({ request }) {
     console.log("error cant update profile");
   });
   if (state) {
-    throw redirect("/");
+    throw redirect("/quotee");
   } else {
     return {
       message: "this email is already in use",
@@ -85,7 +85,7 @@ export default function SignUp() {
   const navigation = useNavigation();
   const state = localStorage.getItem("currentUser");
   if (state) {
-    return <Navigate to="/" replace={true} />;
+    return <Navigate to="/quotee" replace={true} />;
   }
   return (
     <div className="flex justify-around flex-col md:flex-row gap-5   items-center h-screen bg-quotee-100 p-10 text-quotee-600">
@@ -159,7 +159,7 @@ export default function SignUp() {
         <p className="text-sm">
           already have an account ?{" "}
           <span className="underline font-semibold">
-            <Link to="/login">Login</Link>
+            <Link to="/quotee/login">Login</Link>
           </span>
         </p>
       </div>

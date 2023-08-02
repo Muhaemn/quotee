@@ -30,7 +30,7 @@ export async function action({ request }) {
       stats = false;
     });
   if (stats) {
-    return redirect("/");
+    return redirect("/quotee");
   } else {
     return "Incorrect email or password try again";
   }
@@ -40,7 +40,7 @@ export default function Login() {
   const navigation = useNavigation();
   const state = localStorage.getItem("cureentUser");
   if (state) {
-    return <Navigate to="/" />;
+    return <Navigate to="/quotee" />;
   }
   return (
     <div className="flex justify-around flex-col md:flex-row gap-5   items-center h-screen bg-quotee-100 p-10 text-quotee-600">
@@ -83,14 +83,14 @@ export default function Login() {
               {navigation.state === "submitting" ? "Logging in..." : "Log in"}
             </button>
             <p className="hover:font-semibold underline">
-              <Link to="/recovery">Forgot password</Link>
+              <Link to="/quotee/recovery">Forgot password</Link>
             </p>
           </div>
         </Form>
         <p className="text-sm">
           don't have an account ?{" "}
           <span className="underline font-semibold">
-            <Link to="/signup">Create account</Link>
+            <Link to="/quotee/signup">Create account</Link>
           </span>
         </p>
       </div>

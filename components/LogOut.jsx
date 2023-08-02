@@ -43,7 +43,7 @@ export default function Modal({ name, title, description, onClick }) {
                     type="button"
                     onClick={async () => {
                       await onClick();
-                      navigate("/login");
+                      navigate("/quotee/login");
                     }}
                   >
                     Log out

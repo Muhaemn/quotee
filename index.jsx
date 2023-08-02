@@ -30,6 +30,7 @@ import EditQuote, {
   loader as editQuoteLoader,
   action as editQuoteAction,
 } from "./pages/EditQuote";
+import Redirect from "./components/Redirect";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -78,14 +79,20 @@ const router = createBrowserRouter(
           action={changeEmailAction}
           element={<ChangeEmail />}
         />
+        <Route
+          path="redirect"
+          loader={() => requireAuth()}
+          action={changeEmailAction}
+          element={<Redirect />}
+        />
       </Route>
       <Route
-        path="recovery"
+        path="quotee/recovery"
         action={recoveryAction}
         element={<AccountRecovery />}
       />
-      <Route path="signup" action={signUpAction} element={<SignUp />} />
-      <Route path="login" action={loginAction} element={<Login />} />
+      <Route path="quotee/signup" action={signUpAction} element={<SignUp />} />
+      <Route path="quotee/login" action={loginAction} element={<Login />} />
     </>
   )
 );
