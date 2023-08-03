@@ -5,14 +5,13 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
-  redirect,
 } from "react-router-dom";
 import Login, { action as loginAction } from "./pages/Login";
 import AccountRecovery, {
   action as recoveryAction,
 } from "./pages/AccountRecovery";
 import SignUp, { action as signUpAction } from "./pages/SignUp";
-import Home, { loader as homeLoader } from "./pages/Home";
+import Home from "./pages/Home";
 import Layout from "./components/Layout";
 import Profile, { loader as profileLoader } from "./pages/Profile";
 import Create, { action as createAction } from "./pages/Create";
@@ -31,11 +30,14 @@ import EditQuote, {
   action as editQuoteAction,
 } from "./pages/EditQuote";
 import Redirect from "./components/Redirect";
+import { isLoggedIn } from "./util";
+import Error from "./pages/Error";
+import ErrorElement from "./pages/ErrorElement";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/quotee" element={<Layout />}>
-        <Route index loader={homeLoader} element={<Home />} />
+      <Route path="/" errorElement={<ErrorElement />} element={<Layout />}>
+        <Route index loader={() => requireAuth()} element={<Home />} />
         <Route path="profile" loader={profileLoader} element={<Profile />} />
         <Route
           path="create"
@@ -87,12 +89,31 @@ const router = createBrowserRouter(
         />
       </Route>
       <Route
-        path="quotee/recovery"
+        path="recovery"
         action={recoveryAction}
         element={<AccountRecovery />}
       />
-      <Route path="quotee/signup" action={signUpAction} element={<SignUp />} />
-      <Route path="quotee/login" action={loginAction} element={<Login />} />
+      <Route
+        path="signup"
+        loader={() => {
+          isLoggedIn();
+          console.log("isLoggedIn");
+          return null;
+        }}
+        action={signUpAction}
+        element={<SignUp />}
+      />
+      <Route
+        path="login"
+        loader={() => {
+          isLoggedIn();
+          console.log("isLoggedIn");
+          return null;
+        }}
+        action={loginAction}
+        element={<Login />}
+      />
+      <Route path="*" element={<Error />} />
     </>
   )
 );

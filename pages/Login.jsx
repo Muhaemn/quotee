@@ -5,7 +5,6 @@ import {
   redirect,
   useActionData,
   useNavigation,
-  Navigate,
 } from "react-router-dom";
 import Input from "../components/Input";
 import { auth } from "../firebase";
@@ -26,11 +25,10 @@ export async function action({ request }) {
       localStorage.setItem("userData", CircularJSON.stringify(encrypted));
     })
     .catch((error) => {
-      console.log(error);
       stats = false;
     });
   if (stats) {
-    return redirect("/quotee");
+    return redirect("/");
   } else {
     return "Incorrect email or password try again";
   }
@@ -38,14 +36,10 @@ export async function action({ request }) {
 export default function Login() {
   const actionData = useActionData();
   const navigation = useNavigation();
-  const state = localStorage.getItem("cureentUser");
-  if (state) {
-    return <Navigate to="/quotee" />;
-  }
   return (
     <div className="flex justify-around flex-col md:flex-row gap-5   items-center h-screen bg-quotee-100 p-10 text-quotee-600">
-      <h1 className="text-[100px]">Quotee</h1>
-      <div className="flex justify-evenly items-center flex-col w-full md:w-1/3 h-screen bg-quotee-50 border-2 border-quotee-200 rounded p-5">
+      <h1 className="text-[70px] sm:text-[90px]">Quotee</h1>
+      <div className="flex justify-evenly items-center flex-col w-full md:w-1/3 h-screen bg-quotee-50 border-2 border-quotee-200 rounded-2xl md:rounded-none p-5">
         <h1 className="text-3xl">Welcome</h1>
         <Form
           method="post"
@@ -74,8 +68,8 @@ export default function Login() {
             <button
               className={
                 navigation.state === "submitting"
-                  ? "text-white px-4 py-2 disabled:bg-quotee-600 disabled:cursor-not-allowed rounded bg-quotee-500 hover:bg-quotee-600 transition-all ease-in-out duration-150 animate-pulse"
-                  : "text-white px-4 py-2 disabled:bg-quotee-600 disabled:cursor-not-allowed rounded bg-quotee-500 hover:bg-quotee-600 transition-all ease-in-out duration-150"
+                  ? "text-white w-[150px] px-4 py-2 disabled:bg-quotee-600 disabled:cursor-not-allowed rounded bg-quotee-500 hover:bg-quotee-600 transition-all ease-in-out duration-150 animate-pulse"
+                  : "text-white w-[150px] px-4 py-2 disabled:bg-quotee-600 disabled:cursor-not-allowed rounded bg-quotee-500 hover:bg-quotee-600 transition-all ease-in-out duration-150"
               }
               type="submit"
               disabled={navigation.state === "submitting"}
@@ -83,14 +77,14 @@ export default function Login() {
               {navigation.state === "submitting" ? "Logging in..." : "Log in"}
             </button>
             <p className="hover:font-semibold underline">
-              <Link to="/quotee/recovery">Forgot password</Link>
+              <Link to="/recovery">Forgot password</Link>
             </p>
           </div>
         </Form>
         <p className="text-sm">
           don't have an account ?{" "}
           <span className="underline font-semibold">
-            <Link to="/quotee/signup">Create account</Link>
+            <Link to="/signup">Create account</Link>
           </span>
         </p>
       </div>

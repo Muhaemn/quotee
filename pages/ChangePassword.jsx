@@ -57,7 +57,7 @@ export async function action({ request }) {
       succeed: false,
     };
   }
-  return redirect("/quotee/profile");
+  return redirect("/profile");
 }
 
 export default function ChangePassword() {

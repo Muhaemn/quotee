@@ -42,10 +42,10 @@ export default function Search() {
       })
       .catch((error) => console.log(error));
   }
-  const searchResult = results.map((e) => {
+  const searchResult = results.map((e, i) => {
     return (
       <Account
-        key={e.uid}
+        key={i}
         name={e.name}
         username={e.username}
         photoURL={e.photoURL}

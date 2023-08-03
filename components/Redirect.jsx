@@ -5,8 +5,9 @@ export default function Redirect() {
   const location = useLocation();
   return (
     <Navigate
-      to={"/quotee/" + location.state.username}
+      to={"/" + location.state.username}
       state={location.state.id}
+      replace={true}
     />
   );
 }

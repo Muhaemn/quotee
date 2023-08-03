@@ -19,6 +19,7 @@ import {
   Await,
   defer,
   useNavigate,
+  Navigate,
 } from "react-router-dom";
 import pfp from "../assets/pfp.png";
 import FollowDropDown from "../components/FollowDropDown";
@@ -39,8 +40,7 @@ export async function loader({ params }) {
       })
       .catch((err) => console.log(err));
     if (userId == details.id) {
-      console.log("test");
-      redirect("/quotee/profile");
+      redirect("/profile");
     }
     const quotesData = [];
     const qq = query(
@@ -68,6 +68,30 @@ export default function AccountDetail() {
   const [profileData, setProfileData] = useState({});
   const [quotesData, setQuotesData] = useState([]);
   const id = useLocation();
+  if (id.state == null) {
+    return <Navigate to="/" replace={true} />;
+  }
+
+  const handlePopstate = (event) => {
+    setProfileData({
+      name: "",
+      username: "",
+      password: "",
+      email: "",
+      bio: "",
+      following: [],
+      followers: [],
+      quotes: [],
+    });
+    setQuotesData([]);
+  };
+
+  useEffect(() => {
+    window.addEventListener("popstate", handlePopstate);
+    return () => {
+      window.removeEventListener("popstate", handlePopstate);
+    };
+  }, []);
 
   function AccountDataAwait() {
     const quotes = quotesData.map((e, i) => (
@@ -169,11 +193,9 @@ export default function AccountDetail() {
       return [quotesData?.length];
     }
   }
-
   useEffect(() => {
     if (userId == id.state) {
-      console.log("test");
-      navigate("/quotee/profile");
+      navigate("/profile");
     }
     const unsub = onSnapshot(q, (d) => {
       let qData = [];

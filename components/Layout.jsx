@@ -1,13 +1,23 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 export default function Layout() {
   return (
     <div className="flex flex-col-reverse justify-between  sm:flex-row text-quotee-600 min-h-screen">
       <div className="h-[50px] z-40 sm:h-screen sticky bg-quotee-100 flex text-lg font-semibold sm:flex-col left-0 bottom-0 sm:top-0 sm:border-r-2 border-t-2 justify-evenly items-center border-quotee-200  min-w-[90px] md:min-w-[250px]">
-        <Link to="" className=" font-semibold text-3xl hidden md:block">
+        <NavLink to="" className=" font-semibold text-3xl hidden md:block">
           Quotee
-        </Link>
-        <Link to="" className="flex justify-center items-center gap-3">
+        </NavLink>
+        <NavLink
+          to=""
+          end
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "flex bg-quotee-200 animate-pulse px-5 py-3 rounded-md justify-center items-center gap-3"
+              : isActive
+              ? "flex bg-quotee-200 px-5 py-3 rounded-md justify-center items-center gap-3"
+              : "flex  px-5 py-3 rounded-md justify-center items-center gap-3"
+          }
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -23,8 +33,17 @@ export default function Layout() {
             />
           </svg>
           <p className="hidden md:block">Home</p>
-        </Link>
-        <Link to="search" className="flex justify-center items-center gap-3">
+        </NavLink>
+        <NavLink
+          to="search"
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "flex bg-quotee-200 animate-pulse px-5 py-3 rounded-md justify-center items-center gap-3"
+              : isActive
+              ? "flex bg-quotee-200 px-5 py-3 rounded-md justify-center items-center gap-3"
+              : "flex  px-5 py-3 rounded-md justify-center items-center gap-3"
+          }
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -41,8 +60,17 @@ export default function Layout() {
           </svg>
 
           <p className="hidden md:block">Search</p>
-        </Link>
-        <Link to="create" className="flex justify-center items-center gap-3">
+        </NavLink>
+        <NavLink
+          to="create"
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "flex bg-quotee-200 animate-pulse px-5 py-3 rounded-md justify-center items-center gap-3"
+              : isActive
+              ? "flex bg-quotee-200 px-5 py-3 rounded-md justify-center items-center gap-3"
+              : "flex  px-5 py-3 rounded-md justify-center items-center gap-3"
+          }
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -59,8 +87,17 @@ export default function Layout() {
           </svg>
 
           <p className="hidden md:block">Create</p>
-        </Link>
-        <Link to="profile" className="flex justify-center items-center gap-3">
+        </NavLink>
+        <NavLink
+          to="profile"
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "flex bg-quotee-200 animate-pulse px-5 py-3 rounded-md justify-center items-center gap-3"
+              : isActive
+              ? "flex bg-quotee-200 px-5 py-3 rounded-md justify-center items-center gap-3"
+              : "flex  px-5 py-3 rounded-md justify-center items-center gap-3"
+          }
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -77,7 +114,7 @@ export default function Layout() {
           </svg>
 
           <p className="hidden md:block">Profile</p>
-        </Link>
+        </NavLink>
       </div>
       <div className="flex flex-col items-center w-full">
         <Outlet />

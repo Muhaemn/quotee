@@ -4,7 +4,6 @@ import {
   Link,
   redirect,
   useActionData,
-  Navigate,
   useNavigation,
 } from "react-router-dom";
 import Input from "../components/Input";
@@ -55,8 +54,8 @@ export async function action({ request }) {
         followers: [],
         quotes: [],
       })
-        .then(() => console.log("account created"))
-        .catch(() => console.log("error"));
+        .then(() => {})
+        .catch((err) => console.log(err));
       const userId = userCredential.user.uid;
       const key = userId.substring(0, 10);
       const encrypted = CryptoJS.AES.encrypt(userId, key);
@@ -64,14 +63,13 @@ export async function action({ request }) {
       localStorage.setItem("userData", CircularJSON.stringify(encrypted));
     })
     .catch((err) => {
-      console.log(err);
       state = false;
     });
   await updateProfile(auth.currentUser, { displayName: name }).catch(() => {
     console.log("error cant update profile");
   });
   if (state) {
-    throw redirect("/quotee");
+    throw redirect("/");
   } else {
     return {
       message: "this email is already in use",
@@ -83,14 +81,10 @@ export async function action({ request }) {
 export default function SignUp() {
   const actionData = useActionData();
   const navigation = useNavigation();
-  const state = localStorage.getItem("currentUser");
-  if (state) {
-    return <Navigate to="/quotee" replace={true} />;
-  }
   return (
     <div className="flex justify-around flex-col md:flex-row gap-5   items-center h-screen bg-quotee-100 p-10 text-quotee-600">
-      <h1 className="text-[100px]">Quotee</h1>
-      <div className="flex justify-evenly items-center flex-col w-full md:w-1/3 h-screen bg-quotee-50 border-2 border-quotee-200 rounded p-5">
+      <h1 className="text-[70px] sm:text-[90px]">Quotee</h1>
+      <div className="flex justify-evenly items-center flex-col w-full md:w-1/3 h-screen bg-quotee-50 border-2 border-quotee-200 rounded-2xl md:rounded-none p-5">
         <h1 className="text-3xl">Welcome</h1>
         <Form
           method="post"
@@ -159,7 +153,7 @@ export default function SignUp() {
         <p className="text-sm">
           already have an account ?{" "}
           <span className="underline font-semibold">
-            <Link to="/quotee/login">Login</Link>
+            <Link to="/login">Login</Link>
           </span>
         </p>
       </div>

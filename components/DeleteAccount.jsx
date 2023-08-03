@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "./Input";
 import { auth, db, storage } from "../firebase";
@@ -8,9 +8,37 @@ import {
   reauthenticateWithCredential,
   deleteUser,
 } from "firebase/auth";
-import { deleteDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  or,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+
+function useOutsideAlerter(ref) {
+  const [anime, setAnime] = useState(false);
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setAnime(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
+  return [anime, setAnime];
+}
+
 export default function DeleteAccount({ username }) {
-  const [showModal, setShowModal] = React.useState(false);
+  const warpperRef = useRef(null);
+  const [showModal, setShowModal] = useOutsideAlerter(warpperRef);
   const navigate = useNavigate();
   const [isDeleting, setIsDeleting] = useState(false);
   const [password, setPassword] = useState("");
@@ -25,10 +53,46 @@ export default function DeleteAccount({ username }) {
       auth.currentUser.email,
       password
     );
+
     await reauthenticateWithCredential(auth.currentUser, credential)
       .then(async () => {
         setIsDeleting(false);
         const user = auth.currentUser;
+        await getDocs(
+          query(
+            collection(db, "users"),
+            or(
+              where("following", "array-contains", auth.currentUser.uid),
+              where("followers", "array-contains", auth.currentUser.uid)
+            )
+          )
+        ).then(async (data) => {
+          data.forEach(async (d) => {
+            const followData = d.data();
+            followData.id = d.id;
+            console.log("inside");
+            await updateDoc(doc(db, "users", followData.id), {
+              followers: followData.followers.filter(
+                (e) => e != auth.currentUser.uid
+              ),
+              following: followData.following.filter(
+                (e) => e != auth.currentUser.uid
+              ),
+            }).catch((err) => console.log(err));
+          });
+        });
+        await getDocs(
+          query(
+            collection(db, "quotes"),
+            where("quotee", "==", auth.currentUser.uid)
+          )
+        ).then(async (data) => {
+          data.forEach(async (d) => {
+            await deleteDoc(doc(db, "quotes", d.id)).catch((err) =>
+              console.log(err)
+            );
+          });
+        });
         await deleteDoc(doc(db, "users", user.uid))
           .then(() => {
             console.log("document deleted");
@@ -73,9 +137,12 @@ export default function DeleteAccount({ username }) {
       </button>
       {showModal ? (
         <>
-          <div className="justify-center text-quotee-600 items-center flex overflow-x-hidden p-3 overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+          <div className="justify-center backdrop-blur text-quotee-600 items-center flex overflow-x-hidden p-3 overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
-              <div className="border-0 max-w-[500px] px-5 rounded-lg shadow-lg relative flex flex-col  bg-quotee-50 outline-none focus:outline-none">
+              <div
+                ref={warpperRef}
+                className="border-0 max-w-[500px] px-5 rounded-lg shadow-lg relative flex flex-col  bg-quotee-50 outline-none focus:outline-none"
+              >
                 <div className=" p-3 border-b border-solid border-slate-200 rounded-t">
                   <h3 className="text-2xl sm:text-3xl font-semibold text-center">
                     Delete Account

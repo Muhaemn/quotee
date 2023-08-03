@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+function useOutsideAlerter(ref) {
+  const [anime, setAnime] = useState(false);
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setAnime(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
+  return [anime, setAnime];
+}
+
 export default function Modal({ name, title, description, onClick }) {
-  const [showModal, setShowModal] = React.useState(false);
+  const warpperRef = useRef(null);
+  const [showModal, setShowModal] = useOutsideAlerter(warpperRef);
   const navigate = useNavigate();
   return (
     <>
@@ -15,9 +33,12 @@ export default function Modal({ name, title, description, onClick }) {
       </button>
       {showModal ? (
         <>
-          <div className="justify-center text-quotee-600 items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+          <div className="justify-center  backdrop-blur text-quotee-600 items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-quotee-50 outline-none focus:outline-none">
+              <div
+                ref={warpperRef}
+                className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-quotee-50 outline-none focus:outline-none"
+              >
                 <div className=" p-3 border-b border-solid border-slate-200 rounded-t">
                   <h3 className="text-3xl font-semibold text-center">
                     {title}
@@ -43,7 +64,7 @@ export default function Modal({ name, title, description, onClick }) {
                     type="button"
                     onClick={async () => {
                       await onClick();
-                      navigate("/quotee/login");
+                      navigate("/login");
                     }}
                   >
                     Log out
@@ -52,7 +73,7 @@ export default function Modal({ name, title, description, onClick }) {
               </div>
             </div>
           </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+          <div className="opacity-25 fixed inset-0 z-40  bg-black"></div>
         </>
       ) : null}
     </>

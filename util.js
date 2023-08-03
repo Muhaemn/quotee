@@ -6,9 +6,15 @@ export function requireAuth() {
   const userData = CircularJSON.parse(localStorage.getItem("userData"));
   if (!currentUser || !userData) {
     return redirect("/quotee/login");
-    // window.location.href = "/quotee/login";
   }
   const decrypted = CryptoJS.AES.decrypt(userData, currentUser);
   const userId = decrypted.toString(CryptoJS.enc.Utf8);
   return userId;
+}
+export function isLoggedIn() {
+  const currentUser = localStorage.getItem("currentUser");
+  const userData = CircularJSON.parse(localStorage.getItem("userData"));
+  if (currentUser && userData) {
+    throw redirect("/quotee");
+  }
 }

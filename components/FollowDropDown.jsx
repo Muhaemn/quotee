@@ -1,7 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Account from "./Account";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
+
+function useOutsideAlerter(ref) {
+  const [anime, setAnime] = useState(false);
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setAnime(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
+  return [anime, setAnime];
+}
 
 export default function Modal({
   title,
@@ -10,8 +27,9 @@ export default function Modal({
   setProfileData,
   setQuotesData,
 }) {
-  const [showModal, setShowModal] = React.useState(false);
-  const [finalData, setFinalData] = React.useState([]);
+  const warpperRef = useRef(null);
+  const [showModal, setShowModal] = useOutsideAlerter(warpperRef);
+  const [finalData, setFinalData] = useState([]);
   useEffect(() => {
     async function getData() {
       const dataTosSet = [];
@@ -25,7 +43,7 @@ export default function Modal({
       setFinalData(dataTosSet);
     }
     getData();
-  }, [data.length, data]);
+  }, [data?.length, data]);
 
   const dataToShow = finalData.map((e, i) => {
     return (
@@ -46,13 +64,16 @@ export default function Modal({
         onClick={() => setShowModal(true)}
         className="flex cursor-pointer items-center flex-col"
       >
-        <h2 className="font-bold">{data.length}</h2>
+        <h2 className="font-bold">{data?.length}</h2>
         <h2>{title}</h2>
       </div>
       {showModal ? (
         <>
-          <div className="justify-center z-50 text-quotee-600 items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none">
-            <div className="relative w-10/12   my-6 mx-auto max-w-3xl">
+          <div className="justify-center backdrop-blur z-50 text-quotee-600 items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none">
+            <div
+              ref={warpperRef}
+              className="relative w-10/12   my-6 mx-auto max-w-3xl"
+            >
               <div
                 onClick={() => setShowModal(false)}
                 className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-quotee-50 outline-none focus:outline-none"

@@ -53,7 +53,6 @@ export async function action({ request }) {
     maxSizeMB: 1,
     maxWidthOrHeight: 640,
   }).catch((err) => console.log(err));
-  console.log(pfp);
   if (username !== usernameOg) {
     const q = query(collection(db, "users"), where("username", "==", username));
     const data = await getDocs(q);
@@ -114,7 +113,7 @@ export async function action({ request }) {
   await updateProfile(auth.currentUser, {
     displayName: name,
   });
-  throw redirect("/quotee/profile");
+  throw redirect("/profile");
 }
 
 export default function Edit() {
@@ -176,7 +175,7 @@ export default function Edit() {
               (remove || (!loaderData.photoURL && !img.show) ? "hidden" : "")
             }
           >
-            Remove photo
+            Remove profile picture
             <input
               type="text"
               className="hidden"

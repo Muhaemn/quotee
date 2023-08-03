@@ -11,20 +11,16 @@
     "build-css": "tailwindcss -i src/base.css -o public/style.css --watch"
   },
   "dependencies": {
-    "@material-ui/core": "^4.12.4",
     "browser-image-compression": "^2.0.2",
     "circular-json": "^0.5.9",
     "crypto-js": "^4.1.1",
     "firebase": "^10.1.0",
-    "localforage": "^1.10.0",
     "lodash.debounce": "^4.0.8",
-    "match-sorter": "^6.3.1",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-easy-crop": "^5.0.0",
-    "react-router-dom": "^6.14.2",
-    "sort-by": "^1.2.0"
+    "react-router-dom": "^6.14.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

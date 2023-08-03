@@ -12,7 +12,7 @@ export async function action({ request }) {
     .then(() => {})
     .catch((error) => {
       state = false;
-      console.log("error");
+      console.log(error);
     });
   if (state) {
     return {
@@ -27,11 +27,10 @@ export async function action({ request }) {
 export default function AccountRecovery() {
   const actionData = useActionData();
   const navigation = useNavigation();
-  console.log(actionData);
   return (
     <div className="flex justify-around flex-col md:flex-row gap-5   items-center h-screen bg-quotee-100 p-10 text-quotee-600">
-      <h1 className="text-[100px]">Quotee</h1>
-      <div className="flex justify-center gap-10 items-center flex-col w-full md:w-1/3 h-screen bg-quotee-50 border-2 border-quotee-200 rounded p-5">
+      <h1 className="text-[70px] sm:text-[90px]">Quotee</h1>
+      <div className="flex justify-center gap-10 items-center flex-col w-full md:w-1/3 h-screen bg-quotee-50 border-2 border-quotee-200 rounded-2xl md:rounded-none p-5">
         <h1 className="text-3xl">Account Recovery</h1>
         <Form
           method="post"

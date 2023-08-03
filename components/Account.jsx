@@ -25,8 +25,8 @@ export default function Account({
           });
           setQuotesData([]);
         }}
-        to={"/quotee/redirect"}
-        state={{ id: id, username: username }}
+        to={"/redirect/"}
+        state={{ id, username }}
       >
         <div className="flex px-4 py-2 justify-between items-center gap-5">
           <div className="flex gap-3 items-center">

@@ -58,9 +58,13 @@ export default function DropDown({ username }) {
             >
               Change Password
             </Link>
-            <Link className="hover:bg-quotee-100 text-sm p-2">
-              Verify Email
-            </Link>
+            <a
+              href="https://youtu.be/dQw4w9WgXcQ"
+              target="_blanck"
+              className="hover:bg-quotee-100 text-sm p-2"
+            >
+              Ask for verification
+            </a>
             <LogOut
               name="Log out"
               onClick={handleLogOut}

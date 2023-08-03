@@ -1,64 +1,142 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Quote from "../components/Quote";
 import {
   collection,
   doc,
   getDoc,
-  getDocs,
   orderBy,
   query,
+  onSnapshot,
+  where,
 } from "firebase/firestore";
-import { useLoaderData } from "react-router-dom";
-import { requireAuth } from "../util";
-import { db } from "../firebase";
-export async function loader() {
-  requireAuth();
-  const finalData = [];
-  const q = query(collection(db, "quotes"), orderBy("createdAt", "desc"));
-  const quotes = await getDocs(q).catch((err) => console.log(err));
-  quotes.forEach(async (quote) => {
-    const quoteData = quote.data();
-    await getDoc(doc(db, "users", quoteData.quotee))
-      .then((quotee) => {
-        const quoteeData = quotee.data();
-        quoteData.id = quotee.id;
-        finalData.push({ ...quoteData, ...quoteeData });
-      })
-      .catch((err) => console.log(err));
-  });
-  return finalData;
-}
+import { auth, db } from "../firebase";
+import QuoteSkeleton from "../skeleton/QuoteSkeleton";
+
 export default function Home() {
-  const quotesData = useLoaderData();
-  const [test, setTest] = useState(false);
-  useEffect(() => {
-    setTest((prev) => !prev);
-  }, quotesData);
-  const quotes = quotesData.map((e) => {
+  const [quotesData, setQuotesData] = useState([]);
+  const [show, setShow] = useState(true);
+  function HomeDataAwait() {
+    if (quotesData == "no data") {
+      return (
+        <div className="w-full pb-2 sm:pb-5  md:pb-10 text-quotee-600 h-[700px]  flex flex-col">
+          <div className="flex w-full text-xl mb-5 justify-bettwen items-start">
+            <h1
+              onClick={() => setShow(false)}
+              className={
+                !show
+                  ? "border-quotee-100 cursor-pointer py-3 text-center border-b-2 w-1/2"
+                  : "border-quotee-100 cursor-pointer py-3 text-center w-1/2 "
+              }
+            >
+              Following
+            </h1>
+            <h1
+              onClick={() => setShow(true)}
+              className={
+                show
+                  ? "border-quotee-100 cursor-pointer py-3 text-center border-b-2 w-1/2"
+                  : "border-quotee-100 cursor-pointer py-3 text-center w-1/2 "
+              }
+            >
+              All
+            </h1>
+          </div>
+          <div className="w-full px-5 text-lg   sm:px-10 md:px-20  text-quotee-600  flex justify-center items-center h-[60%]">
+            There is no quotes yet
+          </div>
+        </div>
+      );
+    }
+    if (!quotesData.length) {
+      return <QuoteSkeleton />;
+    }
+    const quotes = quotesData.map((e) => {
+      return (
+        <Quote
+          key={e.createdAt}
+          name={e.name}
+          username={e.username}
+          photoURL={e.photoURL}
+          quote={e.quote}
+          quotee={e.quoteBy}
+          time={e.createdAt}
+          id={e.id}
+        />
+      );
+    });
     return (
-      <Quote
-        key={e.createdAt}
-        name={e.name}
-        username={e.username}
-        photoURL={e.photoURL}
-        quote={e.quote}
-        quotee={e.quoteBy}
-        time={e.createdAt}
-        id={e.id}
-      />
-    );
-  });
-  return (
-    <div className="w-full py-2 sm:py-5  md:py-10 text-quotee-600  flex flex-col">
-      <h1
-        onClick={() => setTest((prev) => !prev)}
-        className="text-2xl mb-5 font-semibold py-3 text-center border-b sm:border-none border-quotee-200 w-full"
-      >
-        Home
-      </h1>
-      <div className="w-full px-5  sm:px-10 md:px-20  text-quotee-600  flex flex-col">
-        {quotes}
+      <div className="w-full pb-2 sm:pb-5  md:pb-10 text-quotee-600  flex flex-col">
+        <div className="flex w-full text-xl mb-5 justify-bettwen items-start">
+          <h1
+            onClick={() => setShow(false)}
+            className={
+              !show
+                ? "border-quotee-100 cursor-pointer py-3 text-center border-b-2 w-1/2"
+                : "border-quotee-100 cursor-pointer py-3 text-center w-1/2 "
+            }
+          >
+            Following
+          </h1>
+          <h1
+            onClick={() => setShow(true)}
+            className={
+              show
+                ? "border-quotee-100 cursor-pointer py-3 text-center border-b-2 w-1/2"
+                : "border-quotee-100 cursor-pointer py-3 text-center w-1/2 "
+            }
+          >
+            All
+          </h1>
+        </div>
+        <div className="w-full px-5 sm:px-10 md:px-20 text-quotee-600 flex flex-col">
+          {quotes}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  const q = query(collection(db, "quotes"), orderBy("createdAt", "desc"));
+  useEffect(() => {
+    const unsub = onSnapshot(q, (snapshot) => {
+      const quoteesData = [];
+      const quotees = [];
+      const quotesData = [];
+      snapshot.forEach((quote) => {
+        const temp = quote.data();
+        quotees.push(temp.quotee);
+        quotesData.push(temp);
+      });
+
+      Promise.all(
+        quotees.map(async (e, i) => {
+          try {
+            const quotee = await getDoc(doc(db, "users", e));
+            const quoteeData = quotee.data();
+            quoteeData.id = quotee.id;
+            if (
+              quoteeData.followers.includes(auth.currentUser.uid) ||
+              quotee.id == auth.currentUser.uid ||
+              show
+            ) {
+              quoteesData.push({ ...quoteeData, ...quotesData[i] });
+            }
+          } catch (err) {
+            console.log(err);
+          }
+        })
+      ).then(() => {
+        if (!quoteesData.length) {
+          setQuotesData("no data");
+        } else {
+          setQuotesData(quoteesData);
+        }
+      });
+    });
+
+    return () => {
+      unsub();
+    };
+  }, [show]);
+
+  return <HomeDataAwait />;
 }

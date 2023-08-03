@@ -120,7 +120,7 @@ export default function Test({ setShowModal, setImg, setRemove }) {
   }
 
   return (
-    <div className="h-[90vh]  w-full relative mx-auto flex rounded-md border-2 border-quotee-200 items-center justify-center">
+    <div className="h-[90vh]  w-full relative mx-auto flex rounded-xl border-2 border-quotee-200 items-center justify-center">
       {show ? (
         <div className="h-full w-full bg-quotee-100 rounded-md">
           <div className="h-[90%] p-2 ">
@@ -155,7 +155,7 @@ export default function Test({ setShowModal, setImg, setRemove }) {
                 setShowModal(false);
               }}
             >
-              Crop image
+              Set as profile picture
             </button>
           </div>
         </div>
