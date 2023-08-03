@@ -1,6 +1,6 @@
 {
   "name": "quotee",
-  "private": true,
+  "homepage": "https://muhaemn.github.io/quotee/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
