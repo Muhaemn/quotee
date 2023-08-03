@@ -114,7 +114,7 @@ export default function DeleteAccount({ username }) {
           .then(() => {
             localStorage.removeItem("currentUser");
             localStorage.removeItem("userData");
-            navigate("/login");
+            navigate("/quotee/login");
           })
           .catch((error) => {
             console.log(error);

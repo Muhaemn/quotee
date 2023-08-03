@@ -14,7 +14,7 @@ export default function Layout() {
             isPending
               ? "flex bg-quotee-200 animate-pulse px-5 py-3 rounded-md justify-center items-center gap-3"
               : isActive
-              ? "flex bg-quotee-200 px-5 py-3 rounded-md justify-center items-center gap-3"
+              ? "flex sm:bg-quotee-200 px-5 py-3 rounded-md justify-center items-center gap-3"
               : "flex  px-5 py-3 rounded-md justify-center items-center gap-3"
           }
         >
@@ -40,7 +40,7 @@ export default function Layout() {
             isPending
               ? "flex bg-quotee-200 animate-pulse px-5 py-3 rounded-md justify-center items-center gap-3"
               : isActive
-              ? "flex bg-quotee-200 px-5 py-3 rounded-md justify-center items-center gap-3"
+              ? "flex sm:bg-quotee-200 px-5 py-3 rounded-md justify-center items-center gap-3"
               : "flex  px-5 py-3 rounded-md justify-center items-center gap-3"
           }
         >
@@ -67,7 +67,7 @@ export default function Layout() {
             isPending
               ? "flex bg-quotee-200 animate-pulse px-5 py-3 rounded-md justify-center items-center gap-3"
               : isActive
-              ? "flex bg-quotee-200 px-5 py-3 rounded-md justify-center items-center gap-3"
+              ? "flex sm:bg-quotee-200 px-5 py-3 rounded-md justify-center items-center gap-3"
               : "flex  px-5 py-3 rounded-md justify-center items-center gap-3"
           }
         >
@@ -94,7 +94,7 @@ export default function Layout() {
             isPending
               ? "flex bg-quotee-200 animate-pulse px-5 py-3 rounded-md justify-center items-center gap-3"
               : isActive
-              ? "flex bg-quotee-200 px-5 py-3 rounded-md justify-center items-center gap-3"
+              ? "flex sm:bg-quotee-200 px-5 py-3 rounded-md justify-center items-center gap-3"
               : "flex  px-5 py-3 rounded-md justify-center items-center gap-3"
           }
         >

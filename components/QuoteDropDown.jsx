@@ -50,7 +50,7 @@ export default function DropDown({ id, quotes }) {
             </p>
             <Link
               className="hover:bg-quotee-100 text-sm p-2"
-              to={"/create/" + id}
+              to={"/quotee/create/" + id}
             >
               Edit quote
             </Link>

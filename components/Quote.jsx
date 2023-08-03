@@ -21,7 +21,7 @@ export default function Quote({
   return (
     <div className="felx border-b  flex-col-reverse">
       <div className="p-5 flex items-center justify-center flex-col sm:flex-row gap-2 text-quotee-600">
-        <Link onClick={scrollTop} to={"/" + username} state={id}>
+        <Link onClick={scrollTop} to={"/quotee/" + username} state={id}>
           <div className="flex  items-center gap-3 sm:w-[160px] md:w-[200px]">
             <div className="min-w-[50px] min-h-[50px] sm:min-w-[60px] sm:min-h-[60px] md:min-w-[70px] md:min-h-[70px] max-w-[50px] max-h-[50px] sm:max-w-[60px] sm:max-h-[60px] md:max-w-[70px] md:max-h-[70px] rounded-full overflow-hidden bg-quotee-800">
               <img

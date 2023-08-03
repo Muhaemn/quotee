@@ -69,7 +69,7 @@ export async function action({ request }) {
     console.log("error cant update profile");
   });
   if (state) {
-    throw redirect("/");
+    throw redirect("/quotee");
   } else {
     return {
       message: "this email is already in use",
@@ -153,7 +153,7 @@ export default function SignUp() {
         <p className="text-sm">
           already have an account ?{" "}
           <span className="underline font-semibold">
-            <Link to="/login">Login</Link>
+            <Link to="/quotee/login">Login</Link>
           </span>
         </p>
       </div>

@@ -113,7 +113,7 @@ export async function action({ request }) {
   await updateProfile(auth.currentUser, {
     displayName: name,
   });
-  throw redirect("/profile");
+  throw redirect("/quotee/profile");
 }
 
 export default function Edit() {

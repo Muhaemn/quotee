@@ -28,7 +28,7 @@ export async function action({ request }) {
       stats = false;
     });
   if (stats) {
-    return redirect("/");
+    return redirect("/quotee");
   } else {
     return "Incorrect email or password try again";
   }
@@ -77,14 +77,14 @@ export default function Login() {
               {navigation.state === "submitting" ? "Logging in..." : "Log in"}
             </button>
             <p className="hover:font-semibold underline">
-              <Link to="/recovery">Forgot password</Link>
+              <Link to="/quotee/recovery">Forgot password</Link>
             </p>
           </div>
         </Form>
         <p className="text-sm">
           don't have an account ?{" "}
           <span className="underline font-semibold">
-            <Link to="/signup">Create account</Link>
+            <Link to="/quotee/signup">Create account</Link>
           </span>
         </p>
       </div>

@@ -40,7 +40,7 @@ export async function loader({ params }) {
       })
       .catch((err) => console.log(err));
     if (userId == details.id) {
-      redirect("/profile");
+      redirect("/quotee/profile");
     }
     const quotesData = [];
     const qq = query(
@@ -69,7 +69,7 @@ export default function AccountDetail() {
   const [quotesData, setQuotesData] = useState([]);
   const id = useLocation();
   if (id.state == null) {
-    return <Navigate to="/" replace={true} />;
+    return <Navigate to="/quotee" replace={true} />;
   }
 
   const handlePopstate = (event) => {
@@ -195,7 +195,7 @@ export default function AccountDetail() {
   }
   useEffect(() => {
     if (userId == id.state) {
-      navigate("/profile");
+      navigate("/quotee/profile");
     }
     const unsub = onSnapshot(q, (d) => {
       let qData = [];

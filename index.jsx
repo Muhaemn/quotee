@@ -36,7 +36,11 @@ import ErrorElement from "./pages/ErrorElement";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" errorElement={<ErrorElement />} element={<Layout />}>
+      <Route
+        path="/quotee"
+        errorElement={<ErrorElement />}
+        element={<Layout />}
+      >
         <Route index loader={() => requireAuth()} element={<Home />} />
         <Route path="profile" loader={profileLoader} element={<Profile />} />
         <Route
@@ -89,25 +93,23 @@ const router = createBrowserRouter(
         />
       </Route>
       <Route
-        path="recovery"
+        path="quotee/recovery"
         action={recoveryAction}
         element={<AccountRecovery />}
       />
       <Route
-        path="signup"
+        path="quotee/signup"
         loader={() => {
           isLoggedIn();
-          console.log("isLoggedIn");
           return null;
         }}
         action={signUpAction}
         element={<SignUp />}
       />
       <Route
-        path="login"
+        path="quotee/login"
         loader={() => {
           isLoggedIn();
-          console.log("isLoggedIn");
           return null;
         }}
         action={loginAction}

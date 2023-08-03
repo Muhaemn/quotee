@@ -14,7 +14,7 @@ export default function Error() {
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Link
-              to="/"
+              to="/quotee"
               className="text-white px-4 py-2 disabled:bg-quotee-600 disabled:cursor-not-allowed rounded bg-quotee-500 hover:bg-quotee-600 transition-all ease-in-out duration-150"
             >
               Go back to Home

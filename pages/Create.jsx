@@ -31,7 +31,7 @@ export async function action({ request }) {
       }).catch((err) => console.log(err));
     })
     .catch((err) => console.log(err));
-  return redirect("/profile");
+  return redirect("/quotee/profile");
 }
 
 export default function Create() {

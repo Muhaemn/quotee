@@ -2,17 +2,10 @@ import React, { useState } from "react";
 import { Form, redirect, useLoaderData, useNavigation } from "react-router-dom";
 import Input from "../components/Input";
 import { auth, db } from "../firebase";
-import {
-  serverTimestamp,
-  collection,
-  addDoc,
-  updateDoc,
-  doc,
-  getDoc,
-} from "firebase/firestore";
+import { updateDoc, doc, getDoc } from "firebase/firestore";
 import { requireAuth } from "../util";
 export async function loader({ params }) {
-  requireAuth();
+  let currentUser = requireAuth();
   let data;
   await getDoc(doc(db, "quotes", params.id))
     .then((d) => {
@@ -20,6 +13,9 @@ export async function loader({ params }) {
       data.id = d.id;
     })
     .catch((err) => console.log(err));
+  if (data.quotee !== currentUser) {
+    throw redirect("/quotee/profile");
+  }
   return data;
 }
 export async function action({ request }) {
