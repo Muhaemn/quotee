@@ -13,6 +13,7 @@ export default function Quote({
   profile,
   time,
   quotes,
+  verified,
 }) {
   const date = moment(time.toDate()).fromNow();
   function scrollTop() {
@@ -30,12 +31,33 @@ export default function Quote({
               />
             </div>
             <div className="flex flex-col">
-              <h2 className="font-bold">{name}</h2>
-              <h4>{username}</h4>
+              <div className=" flex gap-1 justify-between items-center">
+                <h2 className="font-bold">{name}</h2>
+                {verified && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    x="0px"
+                    y="0px"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 48 48"
+                  >
+                    <circle cx="25" cy="25" r="20" fill="#4dd0e1"></circle>
+                    <path
+                      fill="#fff"
+                      d="M22.491,30.69c-0.576,0-1.152-0.22-1.591-0.659l-6.083-6.084c-0.879-0.878-0.879-2.303,0-3.182 c0.878-0.879,2.304-0.879,3.182,0l6.083,6.084c0.879,0.878,0.879,2.303,0,3.182C23.643,30.47,23.067,30.69,22.491,30.69z"
+                    ></path>
+                    <path
+                      fill="#fff"
+                      d="M22.491,30.69c-0.576,0-1.152-0.22-1.591-0.659c-0.879-0.878-0.879-2.303,0-3.182l9.539-9.539 c0.878-0.879,2.304-0.879,3.182,0c0.879,0.878,0.879,2.303,0,3.182l-9.539,9.539C23.643,30.47,23.067,30.69,22.491,30.69z"
+                    ></path>
+                  </svg>
+                )}
+              </div>
             </div>
           </div>
         </Link>
-        <div className=" relative w-full bg-quotee-100 rounded-md p-5">
+        <div className=" relative w-full bg-quotee-100 rounded-md pr-5 pt-5 pl-5 pb-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="2.5em"
@@ -50,8 +72,10 @@ export default function Quote({
               <QuoteDropDown id={id} quotes={quotes} />
             </div>
           )}
-          <p className="font-semibold whitespace-pre-wrap">{quote}</p>
-          <small className="italic">{quotee}</small>
+          <p className="font-semibold text-center whitespace-pre-wrap">
+            {quote}
+          </p>
+          <div className="italic text-xs mt-5">{quotee}</div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="2.5em"

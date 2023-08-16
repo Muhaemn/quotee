@@ -19,12 +19,12 @@ export default function Home() {
     if (quotesData == "no data") {
       return (
         <div className="w-full pb-2 sm:pb-5  md:pb-10 text-quotee-600 h-[700px]  flex flex-col">
-          <div className="flex w-full text-xl mb-5 justify-bettwen items-start">
+          <div className="flex w-full text-md sm:text-lg mb-5 justify-bettwen items-start">
             <h1
               onClick={() => setShow(false)}
               className={
                 !show
-                  ? "border-quotee-100 cursor-pointer py-3 text-center border-b-2 w-1/2"
+                  ? "border-quotee-100 cursor-pointer py-3 text-center border-b-[3px] font-semibold w-1/2"
                   : "border-quotee-100 cursor-pointer py-3 text-center w-1/2 "
               }
             >
@@ -34,7 +34,7 @@ export default function Home() {
               onClick={() => setShow(true)}
               className={
                 show
-                  ? "border-quotee-100 cursor-pointer py-3 text-center border-b-2 w-1/2"
+                  ? "border-quotee-100 cursor-pointer py-3 text-center border-b-[3px] font-semibold w-1/2"
                   : "border-quotee-100 cursor-pointer py-3 text-center w-1/2 "
               }
             >
@@ -61,17 +61,18 @@ export default function Home() {
           quotee={e.quoteBy}
           time={e.createdAt}
           id={e.id}
+          verified={e?.verified}
         />
       );
     });
     return (
       <div className="w-full pb-2 sm:pb-5  md:pb-10 text-quotee-600  flex flex-col">
-        <div className="flex w-full text-xl mb-5 justify-bettwen items-start">
+        <div className="flex w-full text-md sm:text-lg md:text-xl mb-5 justify-bettwen items-start">
           <h1
             onClick={() => setShow(false)}
             className={
               !show
-                ? "border-quotee-100 cursor-pointer py-3 text-center border-b-2 w-1/2"
+                ? "border-quotee-100 cursor-pointer font-semibold py-3 text-center border-b-[3px] w-1/2"
                 : "border-quotee-100 cursor-pointer py-3 text-center w-1/2 "
             }
           >
@@ -81,7 +82,7 @@ export default function Home() {
             onClick={() => setShow(true)}
             className={
               show
-                ? "border-quotee-100 cursor-pointer py-3 text-center border-b-2 w-1/2"
+                ? "border-quotee-100 cursor-pointer font-semibold py-3 text-center border-b-[3px] w-1/2"
                 : "border-quotee-100 cursor-pointer py-3 text-center w-1/2 "
             }
           >

@@ -27,7 +27,7 @@ export async function action({ request }) {
     quote,
     quoteBy,
   }).catch((err) => console.log(err));
-  return redirect("/profile");
+  return redirect("/quotee/profile");
 }
 
 export default function EditQuote() {

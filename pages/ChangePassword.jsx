@@ -121,7 +121,7 @@ export default function ChangePassword() {
           Can't remember password ?{" "}
           <Link
             className="underline font-semibold transition-all ease-in-out duration-150"
-            to="/recovery"
+            to="/quotee/recovery"
           >
             Forgot password
           </Link>

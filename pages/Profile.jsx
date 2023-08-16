@@ -67,6 +67,7 @@ export default function Profile() {
             profile={true}
             time={e.createdAt}
             quotes={proData.quotes}
+            verified={profileData?.verified}
           />
         );
       });
@@ -84,7 +85,29 @@ export default function Profile() {
     return (
       <div className="flex text-quotee-600 flex-col gap-5 w-full mt-5  px-5 py-2 sm:px-10 sm:py-5 md:px-20 md:py-10">
         <div className="flex justify-between mb-5 rounded-md">
-          <h2 className="font-bold text-lg">{profileData.name}</h2>
+          <div className=" flex gap-1 justify-between items-center">
+            <h2 className="font-bold text-lg">{profileData.name}</h2>
+            {profileData?.verified && (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                width="20"
+                height="20"
+                viewBox="0 0 48 48"
+              >
+                <circle cx="25" cy="25" r="20" fill="#4dd0e1"></circle>
+                <path
+                  fill="#fff"
+                  d="M22.491,30.69c-0.576,0-1.152-0.22-1.591-0.659l-6.083-6.084c-0.879-0.878-0.879-2.303,0-3.182 c0.878-0.879,2.304-0.879,3.182,0l6.083,6.084c0.879,0.878,0.879,2.303,0,3.182C23.643,30.47,23.067,30.69,22.491,30.69z"
+                ></path>
+                <path
+                  fill="#fff"
+                  d="M22.491,30.69c-0.576,0-1.152-0.22-1.591-0.659c-0.879-0.878-0.879-2.303,0-3.182l9.539-9.539 c0.878-0.879,2.304-0.879,3.182,0c0.879,0.878,0.879,2.303,0,3.182l-9.539,9.539C23.643,30.47,23.067,30.69,22.491,30.69z"
+                ></path>
+              </svg>
+            )}
+          </div>
           <DropDown username={profileData.username} />
         </div>
 
@@ -101,7 +124,7 @@ export default function Profile() {
           <div className=" flex flex-col gap-10">
             <div className="flex justify-between items-center gap-10 text-md sm:text-lg font-semibold">
               <FollowDropDown
-                title="folllowers"
+                title="followers"
                 data={profileData.followers}
                 message="No followers yet"
                 setProfileData={setProfileData}

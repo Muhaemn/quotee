@@ -1,13 +1,21 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 export default function Layout() {
+  function scrollTop() {
+    window.scrollTo({ top: 0 });
+  }
   return (
     <div className="flex flex-col-reverse justify-between  sm:flex-row text-quotee-600 min-h-screen">
       <div className="h-[50px] z-40 sm:h-screen sticky bg-quotee-100 flex text-lg font-semibold sm:flex-col left-0 bottom-0 sm:top-0 sm:border-r-2 border-t-2 justify-evenly items-center border-quotee-200  min-w-[90px] md:min-w-[250px]">
-        <NavLink to="" className=" font-semibold text-3xl hidden md:block">
+        <NavLink
+          onClick={scrollTop}
+          to=""
+          className=" select-none font-semibold text-3xl hidden md:block"
+        >
           Quotee
         </NavLink>
         <NavLink
+          onClick={scrollTop}
           to=""
           end
           className={({ isActive, isPending }) =>
@@ -35,6 +43,7 @@ export default function Layout() {
           <p className="hidden md:block">Home</p>
         </NavLink>
         <NavLink
+          onClick={scrollTop}
           to="search"
           className={({ isActive, isPending }) =>
             isPending
@@ -62,6 +71,7 @@ export default function Layout() {
           <p className="hidden md:block">Search</p>
         </NavLink>
         <NavLink
+          onClick={scrollTop}
           to="create"
           className={({ isActive, isPending }) =>
             isPending
@@ -89,6 +99,7 @@ export default function Layout() {
           <p className="hidden md:block">Create</p>
         </NavLink>
         <NavLink
+          onClick={scrollTop}
           to="profile"
           className={({ isActive, isPending }) =>
             isPending
